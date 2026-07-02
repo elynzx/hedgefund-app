@@ -9,13 +9,15 @@ class AccountType(str, Enum):
     SAVINGS = 'savings'
     INVESTMENT = 'investment'
 
+_ACCOUNT_TYPE_VALUES=', '.join(f"'{t.value}'" for t in AccountType)
+
 class BankAccount(db.Model):
     __tablename__ = 'bank_accounts'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     account_name: Mapped[str] = mapped_column(String(50), nullable=False)
-    account_type: Mapped[AccountType] = mapped_column(String(20), nullable=False)
+    account_type: Mapped[str] = mapped_column(String(20), nullable=False)
     current_balance: Mapped[float] = mapped_column(Numeric(15, 2), nullable=False, default=0.00)
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
     created_at: Mapped[PyDateTime] = mapped_column(DateTime(timezone=True), server_default=func.now())
@@ -23,7 +25,7 @@ class BankAccount(db.Model):
 
     __table_args__ = (
         CheckConstraint(
-            f"account_type IN ('{AccountType.CHECKING}', '{AccountType.SAVINGS}', '{AccountType.INVESTMENT}')", 
+            f"account_type IN ({_ACCOUNT_TYPE_VALUES})", 
             name='chk_account_type'
         ),
         CheckConstraint("current_balance >= 0.00", name='chk_bank_account_positive_balance'),

@@ -11,13 +11,15 @@ class TransactionType(str, Enum):
     TRANSFER = 'transfer'
     CREDIT_CARD_PAYMENT = 'credit_card_payment'    
 
+_TRANSACTION_TYPE_VALUES = ', '.join(f"'{t.value}'" for t in TransactionType)
+
 class Transaction(db.Model):
     __tablename__ = 'transactions'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     category_id: Mapped[int] = mapped_column(Integer, ForeignKey('categories.id', ondelete='RESTRICT'), nullable=False)
-    transaction_type: Mapped[TransactionType] = mapped_column(String(25), nullable=False)
+    transaction_type: Mapped[str] = mapped_column(String(25), nullable=False)
     amount: Mapped[float] = mapped_column(Numeric(15, 2), nullable=False)
     description: Mapped[Optional[str]] = mapped_column(String(200), nullable=True)
     date: Mapped[PyDate] = mapped_column(Date, nullable=False, server_default=func.current_date())
@@ -29,7 +31,7 @@ class Transaction(db.Model):
 
     __table_args__ = (
         CheckConstraint(
-            f"transaction_type IN ('{TransactionType.INCOME}', '{TransactionType.EXPENSE}', '{TransactionType.TRANSFER}', '{TransactionType.CREDIT_CARD_PAYMENT}')", 
+            f"transaction_type IN ({_TRANSACTION_TYPE_VALUES})", 
             name='chk_transaction_type'
         ),
         CheckConstraint("amount > 0.00", name='chk_transaction_positive_amount'),
