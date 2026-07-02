@@ -6,7 +6,7 @@ from enum import Enum
 
 class AccountType(str, Enum):
     CHECKING ='checking'
-    SAVING = 'savings'
+    SAVINGS = 'savings'
     INVESTMENT = 'investment'
 
 class BankAccount(db.Model):
