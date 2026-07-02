@@ -1,8 +1,8 @@
 """initial migration
 
-Revision ID: 64c8a219726e
+Revision ID: 23f67b142526
 Revises: 
-Create Date: 2026-07-02 10:38:37.500057
+Create Date: 2026-07-02 11:19:13.851102
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '64c8a219726e'
+revision = '23f67b142526'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,7 +23,7 @@ def upgrade():
     sa.Column('category_name', sa.String(length=100), nullable=False),
     sa.Column('category_type', sa.String(length=20), nullable=False),
     sa.Column('is_active', sa.Boolean(), nullable=False),
-    sa.CheckConstraint("category_type IN ('CategoryType.INCOME', 'CategoryType.FIXED_EXPENSE', 'CategoryType.VARIABLE_EXPENSE', 'CategoryType.SYSTEM')", name='chk_category_type'),
+    sa.CheckConstraint("category_type IN ('income', 'fixed_expense', 'variable_expense', 'system')", name='chk_category_type'),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('category_name')
     )
@@ -51,7 +51,7 @@ def upgrade():
     sa.Column('is_active', sa.Boolean(), nullable=False),
     sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
     sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
-    sa.CheckConstraint("account_type IN ('AccountType.CHECKING', 'AccountType.SAVINGS', 'AccountType.INVESTMENT')", name='chk_account_type'),
+    sa.CheckConstraint("account_type IN ('checking', 'savings', 'investment')", name='chk_account_type'),
     sa.CheckConstraint('current_balance >= 0.00', name='chk_bank_account_positive_balance'),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
@@ -87,7 +87,7 @@ def upgrade():
     sa.Column('destination_account_id', sa.Integer(), nullable=True),
     sa.Column('destination_card_id', sa.Integer(), nullable=True),
     sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
-    sa.CheckConstraint("transaction_type IN ('TransactionType.INCOME', 'TransactionType.EXPENSE', 'TransactionType.TRANSFER', 'TransactionType.CREDIT_CARD_PAYMENT')", name='chk_transaction_type'),
+    sa.CheckConstraint("transaction_type IN ('income', 'expense', 'transfer', 'credit_card_payment')", name='chk_transaction_type'),
     sa.CheckConstraint('amount > 0.00', name='chk_transaction_positive_amount'),
     sa.ForeignKeyConstraint(['category_id'], ['categories.id'], ondelete='RESTRICT'),
     sa.ForeignKeyConstraint(['destination_account_id'], ['bank_accounts.id'], ondelete='SET NULL'),
