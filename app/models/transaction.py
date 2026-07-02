@@ -3,6 +3,13 @@ from sqlalchemy import Integer, String, Numeric, Date, ForeignKey, CheckConstrai
 from sqlalchemy.orm import Mapped, mapped_column
 from typing import Optional
 from datetime import datetime as PyDateTime, date as PyDate
+from enum import Enum
+
+class TransactionType(str, Enum):
+    INCOME = 'income'
+    EXPENSE = 'expense'
+    TRANSFER = 'transfer'
+    CREDIT_CARD_PAYMENT = 'credit_card_payment'    
 
 class Transaction(db.Model):
     __tablename__ = 'transactions'
@@ -10,7 +17,7 @@ class Transaction(db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     category_id: Mapped[int] = mapped_column(Integer, ForeignKey('categories.id', ondelete='RESTRICT'), nullable=False)
-    transaction_type: Mapped[str] = mapped_column(String(25), nullable=False)
+    transaction_type: Mapped[TransactionType] = mapped_column(String(25), nullable=False)
     amount: Mapped[float] = mapped_column(Numeric(15, 2), nullable=False)
     description: Mapped[Optional[str]] = mapped_column(String(200), nullable=True)
     date: Mapped[PyDate] = mapped_column(Date, nullable=False, server_default=func.current_date())
@@ -21,8 +28,10 @@ class Transaction(db.Model):
     created_at: Mapped[PyDateTime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
     __table_args__ = (
-        CheckConstraint("transaction_type IN ('income', 'expense', 'transfer', 'credit_card_payment')", 
-                        name='chk_transaction_type'),
+        CheckConstraint(
+            f"transaction_type IN ('{TransactionType.INCOME}', '{TransactionType.EXPENSE}', '{TransactionType.TRANSFER}', '{TransactionType.CREDIT_CARD_PAYMENT}')", 
+            name='chk_transaction_type'
+        ),
         CheckConstraint("amount > 0.00", name='chk_transaction_positive_amount'),
     )
 
