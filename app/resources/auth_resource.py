@@ -1,10 +1,12 @@
 from flask_restful import Resource
 from flask import request
+from flasgger import swag_from
 from pydantic import ValidationError
 from app.schemas.auth_schema import RegisterSchema, LoginSchema
 from app.services.auth_service import auth_service
 
 class RegisterResource(Resource):
+    @swag_from('../docs/register.yml')
     def post(self):
         try:
             data = request.get_json()
@@ -31,6 +33,7 @@ class RegisterResource(Resource):
 
 
 class LoginResource(Resource):
+    @swag_from('../docs/login.yml')
     def post(self):
         try:
             data = request.get_json()

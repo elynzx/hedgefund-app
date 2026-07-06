@@ -1,9 +1,11 @@
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required
+from flasgger import swag_from
 from app.services.category_service import category_service
 
 class CategoryResource(Resource):
     @jwt_required()
+    @swag_from('../docs/get_categories.yml')
     def get(self):
         try:
             categories = category_service.get_all_active()

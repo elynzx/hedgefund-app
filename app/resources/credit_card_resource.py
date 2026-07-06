@@ -2,6 +2,7 @@ from flask_restful import Resource
 from flask import request
 from pydantic import ValidationError
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from flasgger import swag_from
 from app.schemas.credit_card_schema import CreditCardCreateSchema, CreditCardUpdateSchema
 from app.services.credit_card_service import credit_card_service
 from app.utils.security import CryptoHelper
@@ -13,6 +14,7 @@ def get_current_user_id() -> int:
 
 class CreditCardResource(Resource):
     @jwt_required()
+    @swag_from('../docs/get_credit_cards.yml')
     def get(self):
         try:
             user_id = get_current_user_id()
@@ -25,6 +27,7 @@ class CreditCardResource(Resource):
             }, 500
             
     @jwt_required()
+    @swag_from('../docs/create_credit_card.yml')
     def post(self):
         try:
             user_id = get_current_user_id()
@@ -47,6 +50,7 @@ class CreditCardResource(Resource):
             
 class ManageCreditCardResource(Resource):
     @jwt_required()
+    @swag_from('../docs/update_credit_card.yml')    
     def put(self, card_id: int):
         try:
             user_id = get_current_user_id()
@@ -76,6 +80,7 @@ class ManageCreditCardResource(Resource):
             }, 500
 
     @jwt_required()
+    @swag_from('../docs/delete_credit_card.yml')
     def delete(self, card_id: int):
         try:
             user_id = get_current_user_id()

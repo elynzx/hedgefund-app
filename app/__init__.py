@@ -2,8 +2,7 @@ from flask import Flask
 from config import Config
 from db import db
 from flask_migrate import Migrate
-
-from app.extensions import bcrypt, jwt
+from app.extensions import bcrypt, jwt, swagger
 from app.utils.seed import seed_categories
 from app.router import api
 
@@ -19,6 +18,7 @@ def create_app():
     bcrypt.init_app(app)
     jwt.init_app(app)
     api.init_app(app)
+    swagger.init_app(app)
     
     @app.cli.command("seed-categories")
     def seed_categories_command():

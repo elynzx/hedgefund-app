@@ -2,6 +2,7 @@ from flask_restful import Resource
 from flask import request
 from pydantic import ValidationError
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from flasgger import swag_from
 from app.schemas.user_schema import UserUpdateSchema
 from app.services.user_service import user_service
 from app.utils.security import CryptoHelper

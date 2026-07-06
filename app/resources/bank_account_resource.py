@@ -2,6 +2,7 @@ from flask_restful import Resource
 from flask import request
 from pydantic import ValidationError
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from flasgger import swag_from
 from app.schemas.bank_account_schema import BankAccountCreateSchema, BankAccountUpdateSchema
 from app.services.bank_account_service import bank_account_service
 from app.utils.security import CryptoHelper
@@ -13,6 +14,7 @@ def get_current_user_id() -> int:
 
 class BankAccountResource(Resource):
     @jwt_required()
+    @swag_from('../docs/get_bank_accounts.yml')
     def get(self):
         try:
             user_id = get_current_user_id()
@@ -26,6 +28,7 @@ class BankAccountResource(Resource):
             }, 500
             
     @jwt_required()
+    @swag_from('../docs/create_bank_account.yml')
     def post(self):
         try:
             user_id = get_current_user_id()
@@ -48,6 +51,7 @@ class BankAccountResource(Resource):
 
 class ManageBankAccountResource(Resource):
     @jwt_required()
+    @swag_from('../docs/update_bank_account.yml')
     def put(self, account_id: int):
         try:
             user_id = get_current_user_id()
@@ -78,6 +82,7 @@ class ManageBankAccountResource(Resource):
             }, 500
 
     @jwt_required()
+    @swag_from('../docs/delete_bank_account.yml')
     def delete(self, account_id: int):
         try:
             user_id = get_current_user_id()
