@@ -2,15 +2,13 @@ from flask import Flask
 from config import Config
 from db import db
 from flask_migrate import Migrate
-from flask_bcrypt import Bcrypt
-from app.models import (user, category, bank_account, credit_card, transaction)
 
-from flask_jwt_extended import JWTManager
+from app.extensions import bcrypt, jwt
 from app.router import api
 
+from app.models import (user, category, bank_account, credit_card, transaction)
+
 migrate = Migrate()
-bcrypt = Bcrypt()
-jwt = JWTManager()
 
 def create_app():
     app = Flask(__name__)

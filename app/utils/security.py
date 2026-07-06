@@ -1,4 +1,4 @@
-from app import bcrypt
+from app.extensions import bcrypt
 import os
 from cryptography.fernet import Fernet
 import base64
