@@ -30,10 +30,3 @@ class UpdateCategorySchema(BaseModel):
             raise ValueError('El nombre de la categoria no puede estar vacio')
         return value.strip()
     
-class CategoryResponseSchema(BaseModel):
-    id: int
-    category_name: str
-    category_type: CategoryType
-    is_active: bool
-
-    model_config = ConfigDict(from_attributes=True)

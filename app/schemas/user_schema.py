@@ -1,6 +1,4 @@
 from pydantic import BaseModel, Field, field_validator, EmailStr, ConfigDict
-from datetime import datetime
-from typing import Optional
 
 class UserUpdateSchema(BaseModel):
     first_name: str | None = None
@@ -19,15 +17,3 @@ class UserUpdateSchema(BaseModel):
         if value not in allowed_currencies:
             raise ValueError(f"Moneda no soportada. Permitidas: {', '.join(allowed_currencies)}")
         return value
-
-class UserResponseSchema(BaseModel):
-    id: int
-    first_name: str
-    last_name: str
-    email: EmailStr
-    currency: str
-    monthly_income: float
-    is_active: bool
-    created_at: datetime
-    
-    model_config= ConfigDict(from_attributes=True)
