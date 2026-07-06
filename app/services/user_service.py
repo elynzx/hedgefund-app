@@ -1,6 +1,5 @@
 from app.models.user import User
 from app.schemas.user_schema import UserUpdateSchema
-from app.utils.security import hash_password
 from db import db
 
 class UserService:
