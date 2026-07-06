@@ -1,4 +1,4 @@
-from app.extensions import db
+from db import db
 from app.models.credit_card import CreditCard
 from app.schemas.credit_card_schema import CreditCardCreateSchema, CreditCardUpdateSchema
 
@@ -48,4 +48,4 @@ class CreditCardService:
         card.is_active = False
         db.session.commit()
 
-card_service = CreditCardService()
+credit_card_service = CreditCardService()
