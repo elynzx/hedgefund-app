@@ -1,0 +1,9 @@
+tags:
+  - Tarjetas de Credito
+summary: Listar todas las tarjetas de credito
+description: Retorna las tarjetas de crédito activas del usuario, calculando dinamicamente el credito disponible en base al limite y la deuda actual.
+responses:
+  200:
+    description: Lista de tarjetas de credito obtenida con exito.
+  401:
+    description: Token JWT invalido o ausente.

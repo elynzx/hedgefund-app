@@ -1,0 +1,34 @@
+tags:
+  - Tarjetas de Credito
+summary: Modificar o corregir una tarjeta de crédito
+description: Permite al usuario editar de forma flexible el nombre, el límite de crédito o corregir el monto de la deuda actual acumulada.
+parameters:
+  - in: path
+    name: card_id
+    required: true
+    type: integer
+    description: ID numérico de la tarjeta de crédito a modificar.
+  - in: body
+    name: body
+    required: true
+    schema:
+      type: object
+      properties:
+        card_name:
+          type: string
+          example: "Visa BCP Platinum"
+        credit_limit:
+          type: number
+          example: 6000.00
+        debt_amount:
+          type: number
+          example: 150.00
+responses:
+  200:
+    description: Tarjeta de credito actualizada con éxito. Devuelve el objeto modificado.
+  404:
+    description: La tarjeta de credito no existe.
+  401:
+    description: No tienes permisos para modificar esta tarjeta.
+  422:
+    description: Error de validación en los datos enviados.

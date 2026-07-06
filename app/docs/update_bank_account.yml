@@ -1,0 +1,35 @@
+tags:
+  - Cuentas Bancarias
+summary: Modificar o corregir una cuenta bancaria
+description: Permite al usuario editar de forma flexible el nombre, tipo de cuenta o ajustar el saldo inicial si cometió un error al registrarla.
+parameters:
+  - in: path
+    name: account_id
+    required: true
+    type: integer
+    description: ID numerico de la cuenta bancaria a modificar.
+  - in: body
+    name: body
+    required: true
+    schema:
+      type: object
+      properties:
+        account_name:
+          type: string
+          example: "Ahorro Corriente BCP"
+        account_type:
+          type: string
+          enum: [checking, savings, investment]
+          example: "checking"
+        current_balance:
+          type: number
+          example: 1850.00
+responses:
+  200:
+    description: Cuenta bancaria actualizada con exito. Devuelve el objeto modificado.
+  404:
+    description: La cuenta bancaria no existe.
+  401:
+    description: No tienes permisos para modificar esta cuenta.
+  422:
+    description: Error de validación en los datos enviados.

@@ -1,0 +1,9 @@
+tags:
+  - Categorias financieras
+summary: Listar todas las categorías de conceptos de gasto / ingreso
+
+responses:
+  200:
+    description: Lista de categorias en formato JSON
+  401:
+    description: No autorizado. El token de acceso JWT vencio o es invalido

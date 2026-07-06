@@ -1,0 +1,22 @@
+tags:
+  - Autenticacion
+summary: Iniciar sesión de usuario
+description: Autentica las credenciales y devuelve los tokens JWT de access y refresh.
+parameters:
+  - in: body
+    name: body
+    required: true
+    schema:
+      type: object
+      properties:
+        email:
+          type: string
+          example: "evelyn@correo.com"
+        password:
+          type: string
+          example: "Password123!"
+responses:
+  200:
+    description: Autenticacion exitosa.
+  401:
+    description: Credenciales incorrectas.

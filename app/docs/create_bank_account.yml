@@ -1,0 +1,32 @@
+tags:
+  - Cuentas Bancarias
+summary: Registrar una nueva cuenta bancaria
+description: Permite al usuario logueado añadir una cuenta bancaria.
+parameters:
+  - in: body
+    name: body
+    description: Datos requeridos para la apertura de la cuenta.
+    required: true
+    schema:
+      type: object
+      required:
+        - account_name
+        - account_type
+      properties:
+        account_name:
+          type: string
+          example: "Ahorro BCP Sueldo"
+        account_type:
+          type: string
+          enum: [checking, savings, investment]
+          example: "savings"
+        current_balance:
+          type: number
+          example: 1500.00
+responses:
+  201:
+    description: Cuenta bancaria creada con exito. Devuelve el objeto guardado.
+  422:
+    description: Error de validacion. Los datos enviados no cumplen con los tipos o longitudes requeridas por Pydantic.
+  401:
+    description: Token JWT no valido o no proporcionado.

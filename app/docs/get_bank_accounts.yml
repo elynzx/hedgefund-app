@@ -1,0 +1,9 @@
+tags:
+  - Cuentas Bancarias
+summary: Listar todas las cuentas activas
+description: Retorna todas las cuentas bancarias que le pertenecen al usuario logueado.
+responses:
+  200:
+    description: Lista obtenida correctamente.
+  401:
+    description: Token JWT inválido o ausente.

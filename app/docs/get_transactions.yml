@@ -1,0 +1,9 @@
+tags:
+  - Transacciones
+summary: Obtener historial de movimientos
+description: Retorna la lista completa de ingresos, gastos y transferencias del usuario, ordenada de forma cronológica (las mas recientes primero).
+responses:
+  200:
+    description: Historial de transacciones obtenido correctamente.
+  401:
+    description: Token JWT inválido o ausente.

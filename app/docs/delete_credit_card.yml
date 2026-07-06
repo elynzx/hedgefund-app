@@ -1,0 +1,17 @@
+tags:
+  - Tarjetas de Credito
+summary: Desactivar una tarjeta de credito
+description: Oculta la tarjeta de credito del listado principal cambiando su estado a inactivo para preservar la integridad del historial de transacciones.
+parameters:
+  - in: path
+    name: account_id
+    required: true
+    type: integer
+    description: ID numerico de la tarjeta a desactivar.
+responses:
+  200:
+    description: Tarjeta de credito desactivada con exito.
+  404:
+    description: La tarjeta de credito no existe.
+  401:
+    description: No tienes permisos para modificar esta tarjeta.

@@ -1,0 +1,36 @@
+tags:
+  - Tarjetas de Credito
+summary: Registrar una nueva tarjeta de credito
+description: Añade una tarjeta al perfil del usuario permitiendo inicializarla con la deuda acumulada que tenga a la fecha.
+parameters:
+  - in: body
+    name: body
+    required: true
+    schema:
+      type: object
+      required:
+        - card_name
+        - credit_limit
+        - closing_day
+        - due_day
+      properties:
+        card_name:
+          type: string
+          example: "Amex Golden Interbank"
+        credit_limit:
+          type: number
+          example: 5000.00
+        closing_day:
+          type: integer
+          example: 20
+        due_day:
+          type: integer
+          example: 10
+        debt_amount:
+          type: number
+          example: 350.00
+responses:
+  201:
+    description: Tarjeta de crédito registrada exitosamente.
+  422:
+    description: Datos inválidos o deuda inicial mayor al limite de credito.

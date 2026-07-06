@@ -1,0 +1,40 @@
+tags:
+  - Autenticacion
+summary: Registrar un nuevo usuario
+description: Crea una nueva cuenta de usuario en el sistema. Valida de forma estricta que el correo electrónico no este duplicado y que la contraseña cumpla con las politicas de seguridad (mayúsculas, números y caracteres especiales) mediante Pydantic.
+parameters:
+  - in: body
+    name: body
+    description: Datos requeridos para la creacion de la cuenta.
+    required: true
+    schema:
+      type: object
+      required:
+        - first_name
+        - last_name
+        - email
+        - password
+        - confirm_password
+      properties:
+        first_name:
+          type: string
+          example: "Evelyn"
+        last_name:
+          type: string
+          example: "Pascual"
+        email:
+          type: string
+          example: "evelyn@correo.com"
+        password:
+          type: string
+          example: "Password123!"
+        confirm_password:
+          type: string
+          example: "Password123!"
+responses:
+  201:
+    description: Usuario registrado con exito. Retorna los datos básicos del perfil en formato JSON (sin la contraseña hasheada).
+  400:
+    description: Error de negocio. El correo electronico ya se encuentra registrado en el sistema.
+  422:
+    description: Error de validacion. Los datos enviados no cumplen con los requisitos de Pydantic o las contraseñas no coinciden.

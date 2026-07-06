@@ -1,0 +1,32 @@
+tags:
+  - Transacciones
+summary: Registrar un movimiento financiero
+description: Registra un gasto, ingreso o transferencia y actualiza automáticamente los saldos de las cuentas bancarias o tarjetas afectadas en la operación.
+parameters:
+  - in: body
+    name: body
+    required: true
+    schema:
+      type: object
+      properties:
+        category_id:
+          type: integer
+          example: 7
+        transaction_type:
+          type: string
+          enum: [income, expense, transfer, credit_card_payment]
+          example: "expense"
+        amount:
+          type: number
+          example: 50.00
+        description:
+          type: string
+          example: "Suscripción de Netflix"
+        source_card_id:
+          type: integer
+          example: 1
+responses:
+  201:
+    description: Transaccion procesada y saldos actualizados con exito.
+  400:
+    description: Error de negocio (Saldo o linea de credito insuficiente).
