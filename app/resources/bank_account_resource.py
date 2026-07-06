@@ -71,6 +71,11 @@ class ManageBankAccountResource(Resource):
             return {
                 'error': str(e)
             }, 401
+        except Exception as e:
+            return {
+                'error':'Error interno del servidor',
+                'mensaje': str(e)
+            }, 500
 
     @jwt_required()
     def delete(self, account_id: int):
@@ -88,3 +93,8 @@ class ManageBankAccountResource(Resource):
             return {
                 'error': str(e)
             }, 401
+        except Exception as e:
+            return {
+                'error':'Error interno del servidor',
+                'mensaje': str(e)
+            }, 500
