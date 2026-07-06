@@ -5,7 +5,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.schemas.transaction_schema import TransactionCreateSchema
 from app.services.transaction_service import transaction_service
 from app.utils.security import CryptoHelper
-from app.extensions import db
+from db import db
 
 def get_current_user_id() -> int:
     crypto = CryptoHelper()
@@ -13,6 +13,20 @@ def get_current_user_id() -> int:
     return int(crypto.decrypt(hashed_id))
 
 class TransactionResource(Resource):
+    @jwt_required()
+    def get(self):
+        try:
+            user_id = get_current_user_id()
+            transactions = transaction_service.get_all_by_user(user_id)
+
+            return [transaction.to_json() for transaction in transactions], 200
+            
+        except Exception as e:
+            return {
+                'error':'Error interno del servidor',
+                'mensaje': str(e)
+            }, 500
+    
     @jwt_required()
     def post(self):
         try:
