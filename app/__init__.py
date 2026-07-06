@@ -4,6 +4,7 @@ from db import db
 from flask_migrate import Migrate
 
 from app.extensions import bcrypt, jwt
+from app.utils.seed import seed_categories
 from app.router import api
 
 from app.models import (user, category, bank_account, credit_card, transaction)
@@ -18,5 +19,9 @@ def create_app():
     bcrypt.init_app(app)
     jwt.init_app(app)
     api.init_app(app)
+    
+    @app.cli.command("seed-categories")
+    def seed_categories_command():
+        seed_categories()
 
     return app
