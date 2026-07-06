@@ -2,7 +2,7 @@ from flask_restful import Resource
 from flask import request
 from pydantic import ValidationError
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from app.schemas.user_schema import UserUpdateSchema, UserResponseSchema
+from app.schemas.user_schema import UserUpdateSchema
 from app.services.user_service import user_service
 from app.utils.security import CryptoHelper
 
@@ -11,7 +11,7 @@ def get_current_user_id() -> int:
     hashed_id = get_jwt_identity()
     return int(crypto.decrypt(hashed_id))
 
-class ProfileResource(Resource):
+class UserProfileResource(Resource):
     @jwt_required()
     def get(self):
         try:
