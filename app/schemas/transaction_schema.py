@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from datetime import date as PyDate
 from app.models.transaction import TransactionType
 
@@ -13,3 +13,17 @@ class TransactionCreateSchema(BaseModel):
     source_card_id: int | None = None
     destination_account_id: int | None = None
     destination_card_id: int | None = None
+
+class TransactionResponseSchema(BaseModel):
+    id: int
+    category_id: int
+    transaction_type: str
+    amount: float
+    description: str | None
+    date: PyDate
+    source_account_id: int | None
+    source_card_id: int | None
+    destination_account_id: int | None
+    destination_card_id: int | None
+    
+    model_config= ConfigDict(from_attributes=True)

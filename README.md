@@ -18,13 +18,6 @@
   <img src="https://img.shields.io/badge/Swagger-Docs-85EA2D?style=flat-square&logo=swagger&logoColor=black"/>
 </p>
 
-<p align="center">
-  <a href="#-getting-started">Getting started</a> ·
-  <a href="#-api-endpoints">API reference</a> ·
-  <a href="#-project-structure">Architecture</a> ·
-  <a href="#-the-503020-rule">50/30/20 rule</a>
-</p>
-
 ---
 
 ## What is HedgeFund?
@@ -113,6 +106,7 @@ FERNET_KEY=your_fernet_key
 > ```
 
 ### 5. Set up the database
+Create the database in PostgreSQL and apply the existing database migrations to build your local schema:
 
 ```bash
 # Create the database in psql
@@ -123,10 +117,11 @@ flask db upgrade
 ```
 
 ### 6. Seed default categories
+Run the custom Flask CLI command to automatically feed the system with the standard financial categories required by the 50/30/20 budgeting rules:
 
 ```bash
 flask shell
->>> from app.seeds import seed_categories; seed_categories()
+>>> flask seed-categories
 ```
 
 ### 7. Run the development server
@@ -210,53 +205,26 @@ hedgefund-app/
 ├── requirements.txt
 ├── .env                          # Environment variables (not committed)
 ├── .gitignore
-│
 ├── app/
 │   ├── __init__.py               # App factory — registers extensions & resources
 │   ├── router.py                 # Flask-RESTful API route registration
-│   │
-│   ├── models/                   # SQLAlchemy ORM models (Mapped style)
-│   │   ├── user_model.py
-│   │   ├── account_model.py
-│   │   ├── card_model.py
-│   │   ├── category_model.py
-│   │   └── transaction_model.py
-│   │
+│   ├── models/                   # SQLAlchemy ORM models
 │   ├── schemas/                  # Pydantic v2 validation schemas
-│   │   ├── auth_schema.py
-│   │   ├── account_schema.py
-│   │   ├── card_schema.py
-│   │   └── transaction_schema.py
-│   │
 │   ├── resources/                # Flask-RESTful resources (HTTP layer)
 │   │   ├── auth_resource.py
-│   │   ├── account_resource.py
-│   │   ├── card_resource.py
+│   │   ├── bank_account_resource.py
+│   │   ├── credit_card_resource.py
 │   │   ├── transaction_resource.py
-│   │   ├── profile_resource.py
+│   │   ├── user_resource.py
 │   │   └── summary_resource.py
-│   │
 │   ├── services/                 # Business logic layer
-│   │   ├── user_service.py
-│   │   └── transaction_service.py   # ← atomic balance updates live here
-│   │
-│   ├── utils/
-│   │   ├── __init__.py
-│   │   └── helpers.py            # hash_password, verify_password, CryptoHelper
-│   │
-│   └── templates/                # Jinja2 HTML frontend
-│       ├── base.html
-│       ├── index.html            # Public home page
-│       ├── login.html
-│       ├── dashboard.html
-│       ├── transactions.html
-│       └── profile.html
-│       └── payment_methods.html
-│
+│   └── utils/
+│       ├── __init__.py
+│       ├── security.py            # hash_password, verify_password, CryptoHelper
+│       └── seed.py                # seed_categories   
 └── migrations/                   # Alembic — auto-generated, do not edit manually
     └── versions/
 ```
-
 
 
 ## How transactions work (business logic)
@@ -271,7 +239,6 @@ card payment  → - from origin account  /  - debt from credit card
 ```
 
 If anything fails, SQLAlchemy rolls back the entire operation, no partial state is ever saved.
-
 
 
 ## The 50/30/20 rule
@@ -289,7 +256,6 @@ Your income: USD 7,400
 The `/summary` endpoint returns actual vs. recommended amounts so the frontend can display progress bars for each category.
 
 
-
 ## Multi-currency support
 
 Set your currency once during registration or from your profile settings:
@@ -300,9 +266,7 @@ Set your currency once during registration or from your profile settings:
 | USD | $ | US Dollar |
 | EUR | € | Euro |
 
-
 Amounts are stored as plain `NUMERIC` — no conversion is applied. The currency symbol is used for display only.
-
 
 
 ## License
