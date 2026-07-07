@@ -29,6 +29,9 @@ Built as an academic project using Flask, SQLAlchemy, and PostgreSQL, with JWT a
 > **Multi-currency support** — set your currency (PEN, USD, EUR) once in your profile; every amount displays with the right symbol automatically.
 
 
+> **Project Status:** The backend API is fully completed, tested, and documented. The frontend are currently under development.
+
+
 ## Key features
 
 | Feature | Description |
@@ -55,7 +58,6 @@ Built as an academic project using Flask, SQLAlchemy, and PostgreSQL, with JWT a
 | Validation | Pydantic v2 with `EmailStr` |
 | Migrations | Flask-Migrate 4.0 (Alembic) |
 | API docs | Flasgger 0.9 (Swagger UI at `/apidocs`) |
-| Frontend | HTML + CSS templates (Jinja2) |
 | Config | python-dotenv + cryptography (Fernet) |
 
 
